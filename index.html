@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Urna Eletrônica - DW2</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-	<div class="container">
-		<h1>Urna Eletrônica - DW2</h1>
-		<div class="options">
-			<button id="start-election-btn">Iniciar Eleição</button>
-            <button id="crud-btn">Configurar Eleição</button>
-		</div>
-	</div>
-	<script src="main.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>Voting System</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Voting System</h1>
+      <div class="buttons-container">
+        <button class="button" onclick="openVoters()">CRUD Eleitor</button>
+        <button class="button" onclick="openCandidates()">CRUD Candidato</button>
+        <button class="button" onclick="openVoting()">Iniciar Eleição</button>
+      </div>
+      <div id="eleitores" style="display:none"></div>
+      <div id="candidatos" style="display:none"></div>
+      <div id="votos" style="display:none"></div>
+    </div>
+    <script src="Eleitor.js"></script>
+    <script src="Candidato.js"></script>
+    <script src="Voto.js"></script>
+  </body>
 </html>
