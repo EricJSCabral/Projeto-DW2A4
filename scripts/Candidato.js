@@ -13,7 +13,10 @@ class Candidato {
   
     adicionarCandidato(nome, partido) {
       const candidato = new Candidato(nome, partido);
+      console.log("salvando candidato...")
       this.candidatos.push(candidato);
+      // Salvar dados no localStorage
+      localStorage.setItem('candidato', candidato);
     }
   
     exibirCandidatos() {

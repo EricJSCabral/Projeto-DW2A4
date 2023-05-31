@@ -1,7 +1,7 @@
 class Eleitor {
-    constructor(nome, idade) {
-      this.nome = nome;
-      this.idade = idade;
+    constructor() {
+      //this.nome = nome;
+      //this.idade = idade;
       this.votou = false;
     }
   
@@ -22,6 +22,7 @@ class Eleitor {
   
     adicionarEleitor(nome, idade) {
       const eleitor = new Eleitor(nome, idade);
+      console.log("salvando eleitor...")
       this.eleitores.push(eleitor);
     }
   
