@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Candidatos a Prefeito</title>
+    <style>
+        .candidato {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Candidatos a Prefeito</h1>
+    <div id="candidatos-container"></div>
+
+    <button onclick="voltarParaIndex()">Voltar</button>
+
+    <script src="scripts/etapas.js"></script>
+    <script>
+        // Função para exibir os candidatos a prefeito
+        function exibirCandidatosPrefeito() {
+            var container = document.getElementById("candidatos-container");
+
+            // Limpar o conteúdo do container
+            container.innerHTML = "";
+
+            // Obter a etapa atual que contém os candidatos a prefeito
+            var etapaPrefeito = etapas.find(function(etapa) {
+                return etapa.titulo === "PREFEITO";
+            });
+
+            // Verificar se a etapa de prefeito foi encontrada
+            if (etapaPrefeito) {
+                var candidatosPrefeito = etapaPrefeito.candidatos;
+
+                // Iterar sobre os candidatos e criar elementos HTML para exibição
+                candidatosPrefeito.forEach(function(candidato) {
+                    var divCandidato = document.createElement("div");
+                    divCandidato.classList.add("candidato");
+
+                    var nome = document.createElement("h3");
+                    nome.textContent = candidato.nome;
+
+                    var partido = document.createElement("p");
+                    partido.textContent = "Partido: " + candidato.partido;
+
+                    var numero = document.createElement("p");
+                    numero.textContent = "Número: " + candidato.numero;
+
+                    divCandidato.appendChild(nome);
+                    divCandidato.appendChild(partido);
+                    divCandidato.appendChild(numero);
+
+                    container.appendChild(divCandidato);
+                });
+            }
+        }
+
+        // Função para redirecionar para a página inicial (index.html)
+        function voltarParaIndex() {
+            window.location.href = "index.html";
+        }
+
+        // Chamar a função para exibir os candidatos a prefeito ao carregar a página
+        window.addEventListener("load", exibirCandidatosPrefeito);
+    </script>
+</body>
+</html>

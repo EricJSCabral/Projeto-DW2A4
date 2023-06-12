@@ -10,10 +10,15 @@ let seuVotoPara = document.querySelector('.d-1-1 span');
  let votoBranco = false;
  let votos = [];
 
- function comecarEtapa(){
+ let votacoesTotais = 0
+ let votacoesMaximas = 3
 
+ function comecarEtapa(){
+    
+    console.log(etapaAtual)
     let etapa = etapas[etapaAtual];
 
+    console.log(etapa)
     let numeroHtml = '';
     numero = '';
     votoBranco = false;
@@ -40,6 +45,7 @@ let seuVotoPara = document.querySelector('.d-1-1 span');
  function atualizaInterface() {
 
      let etapa = etapas[etapaAtual];
+     console.log(etapaAtual)
 
      let candidato = etapa.candidatos.filter((item) => {
         if(item.numero === numero) {
@@ -48,12 +54,12 @@ let seuVotoPara = document.querySelector('.d-1-1 span');
             return false;
         }
      });
+
      if(candidato.length > 0){
          candidato = candidato[0];
          seuVotoPara.style.display = 'block';
          aviso.style.display = 'block';
          descricao.innerHTML = `Nome: ${candidato.nome}<br/>Partido: ${candidato.partido}`;
-
          let fotosHtml = '';
          for(let i in candidato.fotos){
              if(candidato.fotos[i].small) {
@@ -85,7 +91,7 @@ let seuVotoPara = document.querySelector('.d-1-1 span');
      if(elNumero !== null){
         elNumero.innerHTML = n;
         numero = `${numero}${n}`; 
-
+        console.log(numero)
         elNumero.classList.remove('pisca');
         if(elNumero.nextElementSibling !== null){
 
@@ -98,7 +104,6 @@ let seuVotoPara = document.querySelector('.d-1-1 span');
  }
 
  function branco(){
-
         numero = '';
         votoBranco = true;
         seuVotoPara.style.display = 'block';
@@ -114,7 +119,6 @@ function corrige(){
 }
 
 function confirma(){
-
     let etapa = etapas[etapaAtual];
 
     let votoConfirmado = false;
@@ -139,9 +143,95 @@ function confirma(){
         comecarEtapa();
     }else{
         document.querySelector('.tela').innerHTML = '<div class="aviso--gigante grande pisca">FIM</div>';
+        votacoesTotais++
+        if(votacoesTotais !== votacoesMaximas){
+            document.getElementById("proximoVoto").style.display = "block";
+        } else {
+            document.getElementById("verApuracao").style.display = "block";
+        }
         console.log(votos);
     }
 
    }
 }
 comecarEtapa();
+
+document.getElementById("proximoVoto").onclick = function() {
+    etapaAtual = 0;
+    numero = '';
+    votoBranco = false;
+    document.querySelector('.tela').innerHTML = telaOriginal;
+    seuVotoPara = document.querySelector('.d-1-1 span');
+    cargo = document.querySelector('.d-1-2 span');
+    descricao = document.querySelector('.d-1-4');
+    aviso = document.querySelector('.d-2');
+    lateral = document.querySelector('.d-1-right');
+    numeros = document.querySelector('.d-1-3');
+    document.getElementById("proximoVoto").style.display = "none"; // Oculta o botão novamente
+    comecarEtapa();
+};
+
+
+document.getElementById("verApuracao").onclick = function () {
+
+    var resultadoDiv = document.querySelector('.resultado');
+    resultadoDiv.innerHTML = '';
+    document.getElementById("verApuracao").style.display = "none"; // Oculta o botão novamente
+
+
+    var votosPrefeito = {};
+    var votosVereador = {};
+
+    for (var i = 0; i < votos.length; i++) {
+        var etapa = votos[i].etapa;
+        var voto = votos[i].voto;
+
+        if (etapa === 'PREFEITO') {
+            if (votosPrefeito[voto]) {
+                votosPrefeito[voto]++;
+            } else {
+                votosPrefeito[voto] = 1;
+            }
+        } else if (etapa === 'VEREADOR') {
+            if (votosVereador[voto]) {
+                votosVereador[voto]++;
+            } else {
+                votosVereador[voto] = 1;
+            }
+        }
+    }
+
+    var prefeitoOrdenado = Object.entries(votosPrefeito).sort((a, b) => b[1] - a[1]);
+    var vereadorOrdenado = Object.entries(votosVereador).sort((a, b) => b[1] - a[1]);
+
+    // Exibir votos para Prefeito
+    resultadoDiv.innerHTML += '<h2>Votos para Prefeito:</h2>';
+    for (var i = 0; i < prefeitoOrdenado.length; i++) {
+        var voto = prefeitoOrdenado[i][0];
+        var quantidade = prefeitoOrdenado[i][1];
+
+        var candidato = etapas.find((etapa) => etapa.candidatos.find((candidato) => candidato.numero === voto) && etapa.titulo === 'PREFEITO');
+        var nome = candidato ? candidato.candidatos.find((candidato) => candidato.numero === voto).nome : 'Branco ou Nulo';
+        var partido = candidato ? candidato.candidatos.find((candidato) => candidato.numero === voto).partido : 'NA';
+
+        resultadoDiv.innerHTML += `${nome} (${partido}): ${quantidade} votos<br>`;
+    }
+
+    // Exibir votos para Vereador
+    resultadoDiv.innerHTML += '<h2>Votos para Vereador:</h2>';
+    for (var i = 0; i < vereadorOrdenado.length; i++) {
+        var voto = vereadorOrdenado[i][0];
+        var quantidade = vereadorOrdenado[i][1];
+
+        var candidato = etapas.find((etapa) => etapa.candidatos.find((candidato) => candidato.numero === voto) && etapa.titulo === 'VEREADOR');
+        var nome = candidato ? candidato.candidatos.find((candidato) => candidato.numero === voto).nome : 'Branco ou Nulo';
+        var partido = candidato ? candidato.candidatos.find((candidato) => candidato.numero === voto).partido : 'NA';
+
+        resultadoDiv.innerHTML += `${nome} (${partido}): ${quantidade} votos<br>`;
+    }
+
+
+    // Ocultar a classe "urnA"
+    var urnaDiv = document.querySelector('.urna');
+    urnaDiv.style.display = 'none';
+};

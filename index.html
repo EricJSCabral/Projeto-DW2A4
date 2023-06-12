@@ -9,8 +9,8 @@
     <div class="container">
       <h1>Urna Eletrônica - DW2 - Prof. Frank</h1>
       <div class="buttons-container">
-        <button class="button" onclick="openVoters()">CRUD Eleitor</button>
-        <button class="button" onclick="openCandidates()">CRUD Candidato</button>
+        <button class="button" onclick="openVereador()">Ver Candidatos a Vereador</button>
+        <button class="button" onclick="openPrefeitos()">Ver Candidatos a Prefeito</button>
         <button class="button" onclick="openVoting()">Iniciar Eleição</button>
       </div>
       <div id="eleitores" style="display:none"></div>
@@ -23,12 +23,12 @@
   </body>
 
   <script>
-    function openVoters(){
-      window.location.href = "eleitores.html";
+    function openVereador(){
+      window.location.href = "vereadores.html";
     }
 
-    function openCandidates(){
-      window.location.href = "candidatos.html";
+    function openPrefeitos(){
+      window.location.href = "prefeitos.html";
     }
 
     function openVoting(){

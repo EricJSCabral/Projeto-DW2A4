@@ -76,8 +76,25 @@
 
         </div>
     </div>
+    <div class="resultado">
+        
+    </div>
+
+    <button id="voltar">Voltar</button>
+    <button id="proximoVoto" style="display: none;">Próximo Voto</button>
+    <button id="verApuracao" style="display: none;">Ver Apuração</button>
+
 
     <script src="scripts/etapas.js"></script>
     <script src="scripts/script.js"></script>
+
+    <script>
+        document.getElementById("voltar").addEventListener("click", function() {
+        window.location.href = "index.html"
+        });
+
+        
+        const telaOriginal = document.querySelector('.tela').innerHTML;
+    </script>
 </body>
 </html>
